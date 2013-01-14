@@ -6,7 +6,7 @@ describe PetitionsController do
     stub_bandit controller
     class Petition
       def sigcount
-        signatures.count('email', :distinct => true)
+        signatures.count('email', distinct: true)
       end
     end
   end
@@ -15,7 +15,7 @@ describe PetitionsController do
   # Petition. As you add validations to Petition, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {:title => "This is a petition", :description => "This is a great petition!"}
+    {title: "This is a petition", description: "This is a great petition!"}
   end
 
   describe "GET index" do
@@ -38,32 +38,32 @@ describe PetitionsController do
   describe "GET show" do
     let(:petition) { create(:petition) }
     it "should assign petition variable" do
-      get :show, {:id => petition.id}
+      get :show, {id: petition.id}
       assigns(:petition).should == petition
     end
 
     it "should assign sigcount variable" do
-      get :show, {:id => petition.id}
-      assigns(:sigcount).should == petition.signatures.count('email', :distinct => true)
+      get :show, {id: petition.id}
+      assigns(:sigcount).should == petition.signatures.count('email', distinct: true)
     end
 
     it "should assign email_hash variable" do
-      get :show, {:id => petition.id, n: "some_hash"}
+      get :show, {id: petition.id, n: "some_hash"}
       assigns(:email_hash).should == "some_hash"
     end
 
     it "should set was_signed to false if cookies don`t contain this petition" do
       member = create(:member)
-      controller.stub(:cookies => {member_id: member.to_hash})
-      get :show, :id => petition.id.to_s
+      controller.stub(cookies: {member_id: member.to_hash})
+      get :show, id: petition.id.to_s
       assigns(:was_signed).should == false
     end
 
     it "should set was_signed to true if cookies contain this petition" do
       member = create(:member)
-      controller.stub(:cookies => {member_id: member.to_hash})
-      create(:signature, :member_id => member.id, :petition_id => petition.id)
-      get :show, :id => petition.id.to_s
+      controller.stub(cookies: {member_id: member.to_hash})
+      create(:signature, member_id: member.id, petition_id: petition.id)
+      get :show, id: petition.id.to_s
       assigns(:was_signed).should == true
     end
 
@@ -71,16 +71,16 @@ describe PetitionsController do
       let(:member) { create(:member) }
 
       it "should set the id for @signature" do
-        controller.stub(cookies: {:member_id => member.to_hash})
+        controller.stub(cookies: {member_id: member.to_hash})
         signature = create(:signature, petition: petition, member: member)
-        get :show, {:id => petition.id}
+        get :show, {id: petition.id}
         assigns(:signature).id.should == signature.id
       end
     end
 
     context "the user has not already signed the petition" do
       it "sets facebook ref hash to nil" do
-        get :show, {:id => petition.id}
+        get :show, {id: petition.id}
         assigns(:current_member_hash).should be_nil
       end
     end
@@ -102,7 +102,7 @@ describe PetitionsController do
           let(:sent_email) { create :scheduled_email, member: member_sven, signature_id: signature.id}
 
           it "should not populate name and email from email_hash" do
-            get :show, :id => petition.id, :n => sent_email.to_hash
+            get :show, id: petition.id, n: sent_email.to_hash
 
             assigns(:signature).first_name.should be_nil
             assigns(:signature).last_name.should be_nil
@@ -111,9 +111,9 @@ describe PetitionsController do
         end
 
         context "the petition was not signed from this email" do
-          let(:sent_email) { create :scheduled_email, member: member_sven, :signature_id => nil}
+          let(:sent_email) { create :scheduled_email, member: member_sven, signature_id: nil}
           it "should assign name and email to the form from email hash" do
-            get :show, :id => petition.id, :n => sent_email.to_hash
+            get :show, id: petition.id, n: sent_email.to_hash
 
             assigns(:signature).first_name.should == "Sven"
             assigns(:signature).email.should == "sven@svenland.se"
@@ -127,8 +127,8 @@ describe PetitionsController do
       let(:member_bob) { create :member, first_name: "Bob", email: "bob@bob.com" }
       context "no email hash" do
         it "populates his name and email in the signature form from cookies" do
-          controller.stub(cookies: {:member_id => member_bob.to_hash})
-          get :show, {:id => petition.id}
+          controller.stub(cookies: {member_id: member_bob.to_hash})
+          get :show, {id: petition.id}
           assigns(:signature).first_name.should == "Bob"
           assigns(:signature).email.should == "bob@bob.com"
         end
@@ -140,17 +140,17 @@ describe PetitionsController do
           let(:sent_email) { create :scheduled_email, member: member_sven, signature: signature}
           it "should assign name and email to the form from member cookies" do
             controller.stub(cookies: {member_id: member_bob.to_hash})
-            get :show, {:id => petition.id, :n => sent_email.to_hash}
+            get :show, {id: petition.id, n: sent_email.to_hash}
 
             assigns(:signature).first_name.should == "Bob"
             assigns(:signature).email.should == "bob@bob.com"
           end
         end
         context "the petition was not signed from this email" do
-          let(:sent_email) { create :scheduled_email, member: member_sven, :signature_id => nil}
+          let(:sent_email) { create :scheduled_email, member: member_sven, signature_id: nil}
           it "should assign name and email to the form from cookies" do
             controller.stub(cookies: {member_id: member_bob.to_hash})
-            get :show, {:id => petition.id, :n => sent_email.to_hash}
+            get :show, {id: petition.id, n: sent_email.to_hash}
 
             assigns(:signature).first_name.should == "Bob"
             assigns(:signature).email.should == "bob@bob.com"
@@ -214,7 +214,7 @@ describe PetitionsController do
     it_behaves_like "a user with edit permissions resource page"
 
     it "assigns the requested petition as @petition" do
-      get :edit, {:id => petition.to_param}, valid_session
+      get :edit, {id: petition.to_param}, valid_session
       assigns(:petition).should eq(petition)
     end
 
@@ -248,7 +248,7 @@ describe PetitionsController do
     describe "with invalid params" do
       before :each do
         Petition.any_instance.stub(:save).and_return(false)
-        post :create, {:petition => {}}, valid_session
+        post :create, {petition: {}}, valid_session
       end
       it "assigns a newly created but unsaved petition as @petition" do
         assigns(:petition).should be_a_new(Petition)
@@ -272,11 +272,11 @@ describe PetitionsController do
 
   describe "PUT update" do
     let(:petition) { create(:petition) }
-    let(:action){ put :update, {:id => petition, petition: {:title => "new title"}} }
+    let(:action){ put :update, {id: petition, petition: {title: "new title"}} }
     it_behaves_like "a login protected page"
     describe "with valid params" do
       before :each do
-        put :update, {:id => petition.to_param, :petition => {:title => "Changed title"}}, valid_super_user_session
+        put :update, {id: petition.to_param, petition: {title: "Changed title"}}, valid_super_user_session
       end
       it "updates the requested petition" do
         petition.reload.title.should == "Changed title"
@@ -293,7 +293,7 @@ describe PetitionsController do
 
     describe "with invalid params" do
       before :each do
-        put :update, {:id => petition.to_param, :petition => {:title=>nil}}, valid_super_user_session
+        put :update, {id: petition.to_param, petition: {title:nil}}, valid_super_user_session
       end
       it "assigns the petition as @petition" do
         assigns(:petition).should eq(petition)

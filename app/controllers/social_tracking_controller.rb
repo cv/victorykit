@@ -26,7 +26,7 @@ class SocialTrackingController < ApplicationController
       }[action])
     end
     
-    render :text => ''
+    render text: ''
   end
 
   private

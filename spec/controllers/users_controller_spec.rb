@@ -9,7 +9,7 @@ describe UsersController do
   
   describe "Sign up new user" do
     it "logs the user in after signing up" do
-      post :create, {:user => {:email => "me@my.com", :password => "password", :password_confirmation => "password"}}
+      post :create, {user: {email: "me@my.com", password: "password", password_confirmation: "password"}}
       new_user = User.find_by_email "me@my.com"
       session[:user_id].should eq new_user.id
     end
@@ -22,7 +22,7 @@ describe UsersController do
         User.any_instance.stub(:update_attributes).and_return(true)
       end
       it "redirect to the root page" do
-        put :update, {:id => user.to_param, :user => {'these' => 'params'}}, valid_session
+        put :update, {id: user.to_param, user: {'these' => 'params'}}, valid_session
         should redirect_to root_path
       end
     end

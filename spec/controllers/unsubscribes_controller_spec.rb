@@ -20,7 +20,7 @@ describe UnsubscribesController do
       let(:email) { sent_email.email }
       let(:hash) { SentEmailHasher.generate(sent_email.id) }
 
-      before { get :new, :n => hash }
+      before { get :new, n: hash }
  
       it_behaves_like 'assigns @unsubscribe'
 

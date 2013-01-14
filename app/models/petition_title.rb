@@ -1,6 +1,6 @@
 class PetitionTitle < ActiveRecord::Base
   attr_accessible :title, :title_type
-  attr_accessible :title, :title_type, :as => :admin
+  attr_accessible :title, :title_type, as: :admin
   belongs_to :petition
 
   module TitleType

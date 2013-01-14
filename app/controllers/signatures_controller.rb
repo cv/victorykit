@@ -40,8 +40,8 @@ class SignaturesController < ApplicationController
 
         nps_win signature
         win! :signature
-        cookies[:member_id] = { :value => signature.member.to_hash, :expires => 100.years.from_now }
-        cookies[:ref_code] = { :value => ref_code.code, :expires => 100.years.from_now }
+        cookies[:member_id] = { value: signature.member.to_hash, expires: 100.years.from_now }
+        cookies[:ref_code] = { value: ref_code.code, expires: 100.years.from_now }
 
         flash[:signature_id] = signature.id
       rescue => ex

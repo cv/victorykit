@@ -7,8 +7,8 @@ class Donation < ActiveRecord::Base
 
   def self.confirm_payment(amount, hash)
     donor = Member.find_by_hash(hash)
-    donation = Donation.where(:member_id => donor, :amount => nil).last
-    donation.update_attributes(:amount => amount)
+    donation = Donation.where(member_id: donor, amount: nil).last
+    donation.update_attributes(amount: amount)
   end
 
 end

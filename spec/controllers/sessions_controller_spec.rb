@@ -48,7 +48,7 @@ describe SessionsController do
       before(:each) do
         @user = create(:user)
         session[:user_id] = @user.id
-        delete "destroy", :id => @user.id
+        delete "destroy", id: @user.id
       end
       it "resets session" do
         session[:user_id].should be_nil

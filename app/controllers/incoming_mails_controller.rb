@@ -15,10 +15,10 @@ class IncomingMailsController < ApplicationController
         if (to_address and to_address.start_with? 'unsubscribe')
           Rails.logger.info "Received unsubscribe email"
           EmailProcessor.handle_exceptional_email(message.to_s, from_address, to_address, 'unsubscribe')
-          render :text => 'success', :status => 200
+          render text: 'success', status: 200
         else
           Rails.logger.info "Message failed #{message} from incorrect to address: #{to_address}"
-          render :text => "Message failed #{message} from incorrect to address: #{to_address}", :status => 404
+          render text: "Message failed #{message} from incorrect to address: #{to_address}", status: 404
         end
       end
     end

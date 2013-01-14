@@ -9,7 +9,7 @@ class SentEmail < ActiveRecord::Base
     SentEmailHasher.generate self.id
   end
 
-  scope :by_hash, lambda {|hash| where(:id => SentEmailHasher.validate(hash)) }
+  scope :by_hash, lambda {|hash| where(id: SentEmailHasher.validate(hash)) }
 
   def self.find_by_hash(hash)
     self.by_hash(hash).first

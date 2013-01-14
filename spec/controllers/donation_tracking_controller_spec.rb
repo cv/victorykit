@@ -2,13 +2,13 @@ describe DonationTrackingController do
 
   describe '#create' do
     let(:petition_id) { create(:petition).id }
-    let(:signature_id) { create(:signature, :member => create(:member)).id }
+    let(:signature_id) { create(:signature, member: create(:member)).id }
     let(:referral_code) { create(:referral).code }
     
     let(:params) {{
-      :petition_id => petition_id,
-      :signature_id => signature_id,
-      :referral_code => referral_code
+      petition_id: petition_id,
+      signature_id: signature_id,
+      referral_code: referral_code
     }}
 
     before { post(:create, params) }
@@ -30,7 +30,7 @@ describe DonationTrackingController do
     before do
       Paypal.stub(:verify_payment).and_return(verified)
       Donation.stub(:confirm_payment).with('30', '123.abc')
-      post(:paypal, :payment_gross => '30', :item_number => '123.abc')
+      post(:paypal, payment_gross: '30', item_number: '123.abc')
     end
 
     context 'payment succesfully verified' do

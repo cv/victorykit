@@ -102,7 +102,7 @@ describe Signature do
   end
 
   describe '#fetch_location' do
-    subject { build :signature, :ip_address => '161.132.13.1' }
+    subject { build :signature, ip_address: '161.132.13.1' }
     let(:db) { stub }
 
     before do
@@ -122,7 +122,7 @@ describe Signature do
 
     context 'when local lookup is available' do
       let(:available) { true }
-      let(:data) { { :region => 'CA' } }
+      let(:data) { { region: 'CA' } }
 
       it 'should fetch from db' do
         db.should_receive(:execute).and_return [data]
@@ -132,7 +132,7 @@ describe Signature do
   end
 
   describe '#ip2bigint' do
-    subject { build :signature, :ip_address => '161.132.13.1' }
+    subject { build :signature, ip_address: '161.132.13.1' }
     its(:ip2bigint) { should == 2709785857 }
   end
 

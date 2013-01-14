@@ -9,23 +9,23 @@ describe FacebookSharingOptionsExperiment do
 
   context "referred signature" do
     it "should be applicable when referred from facebook sharing" do
-      signature = stub("signature", :reference_type => "facebook_popup")
+      signature = stub("signature", reference_type: "facebook_popup")
       FacebookSharingOptionsExperiment.applicable_to?(signature).should be_true
     end
 
     it "should not be applicable when referred from other than facebook" do
-      signature = stub("signature", :reference_type => "shared_link")
+      signature = stub("signature", reference_type: "shared_link")
       FacebookSharingOptionsExperiment.applicable_to?(signature).should be_false
     end
 
     it "should not be applicable when referred from unknown" do
-      signature = stub("signature", :reference_type => nil)
+      signature = stub("signature", reference_type: nil)
       FacebookSharingOptionsExperiment.applicable_to?(signature).should be_false
     end
   end
 
   context "using ie7" do
-    let(:browser){ stub("browser", :ie7? => true) }
+    let(:browser){ stub("browser", ie7?: true) }
 
     it "should always return facebook_popup" do
       @experiment.spin!(member, browser).should eq "facebook_popup"
@@ -33,7 +33,7 @@ describe FacebookSharingOptionsExperiment do
   end
 
   context "using a standards-compliant browser" do
-    let(:browser){ stub("browser", :ie7? => false) }
+    let(:browser){ stub("browser", ie7?: false) }
 
     now = Time.now
     before(:each) do
@@ -56,7 +56,7 @@ describe FacebookSharingOptionsExperiment do
       it "should win using default test name where no referral code found" do
         default_test_name = "facebook sharing options"
         referral_type = "some option"
-        signature = stub("signature", :id => 5, :reference_type => referral_type, :referral => nil)
+        signature = stub("signature", id: 5, reference_type: referral_type, referral: nil)
         whiplash.should_receive(:win_on_option!).with(default_test_name, referral_type)
         @experiment.win!(signature)
       end
@@ -85,8 +85,8 @@ describe FacebookSharingOptionsExperiment do
   end
 
   def stub_signature_for_referral referral_type, referral_time
-    referral = stub("ref code", :created_at => referral_time)
-    stub("signature", :id => 5, :reference_type => referral_type, :referral => referral)
+    referral = stub("ref code", created_at: referral_time)
+    stub("signature", id: 5, reference_type: referral_type, referral: referral)
   end
 
 end

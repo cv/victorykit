@@ -3,7 +3,7 @@ describe Referral do
   subject { rc }
 
   its(:code) { should_not be_blank }
-  its(:session) { subject.to_hash.should eq(:session_id => rc.code) }
+  its(:session) { subject.to_hash.should eq(session_id: rc.code) }
 
   describe "#spin!" do
     let(:choice) { subject.spin! "test name", :goal, [:thing1, :thing2] }

@@ -11,7 +11,7 @@ describe Member do
     it { should validate_presence_of :email }
 
     describe '#has_signed?' do
-      let(:petition) { stub(:id => 42) }
+      let(:petition) { stub(id: 42) }
       before { subject.stub_chain(:signatures, :where).and_return [signature] }
 
       context 'before signing a petition' do
@@ -38,7 +38,7 @@ describe Member do
     end
 
     describe '#signature_for' do
-      let(:petition) { build :petition, :id => 5 }
+      let(:petition) { build :petition, id: 5 }
       let(:signature) { build :signature }
 
       before do
@@ -62,7 +62,7 @@ describe Member do
       end
 
       context 'when last signed from' do
-        subject { build :member, :country_code => country, :state_code => state } 
+        subject { build :member, country_code: country, state_code: state } 
         
         context 'us' do
           let(:country) { 'US' }
@@ -95,7 +95,7 @@ describe Member do
         let(:id) { 42 }
 
         before do
-          Member.stub(:where).with(:id => id).and_return [member]
+          Member.stub(:where).with(id: id).and_return [member]
           MemberHasher.stub(:validate).with('foo').and_return 42
         end  
 
@@ -106,7 +106,7 @@ describe Member do
         let(:id) { nil }
 
         before do
-          Member.stub(:where).with(:id => id).and_return []
+          Member.stub(:where).with(id: id).and_return []
           MemberHasher.stub(:validate).with(nil).and_return id
         end
 

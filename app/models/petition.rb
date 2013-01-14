@@ -3,43 +3,43 @@ class Petition < ActiveRecord::Base
   include HtmlToPlainText
 
   attr_accessible :description, :title, :petition_versions_attributes,
-    :petition_titles_attributes, :petition_images_attributes, 
+    :petition_titles_attributes, :petition_images_attributes,
     :petition_descriptions_attributes, :petition_summaries_attributes
 
   attr_accessible :description, :title, :petition_versions_attributes,
-    :petition_titles_attributes, :petition_images_attributes, 
-    :petition_descriptions_attributes, :petition_summaries_attributes, 
-    :to_send, :location, :as => :admin
+    :petition_titles_attributes, :petition_images_attributes,
+    :petition_descriptions_attributes, :petition_summaries_attributes,
+    :to_send, :location, as: :admin
 
   has_many :petition_versions
   has_many :signatures
   has_many :sent_emails
   has_many :referrals
-  has_many :petition_titles, :dependent => :destroy
-  has_many :petition_images, :dependent => :destroy
-  has_many :petition_summaries, :dependent => :destroy
-  has_many :petition_descriptions, :dependent => :destroy
+  has_many :petition_titles, dependent: :destroy
+  has_many :petition_images, dependent: :destroy
+  has_many :petition_summaries, dependent: :destroy
+  has_many :petition_descriptions, dependent: :destroy
   belongs_to :owner, class_name:  "User"
-  
+
   before_validation :strip_whitespace
   validates_presence_of :title, :description, :owner_id
   validates_with PetitionTitlesValidator
- 
-  accepts_nested_attributes_for :petition_titles, 
-    :reject_if => lambda { |a| a[:title].blank? }, 
-    :allow_destroy => true
 
-  accepts_nested_attributes_for :petition_images, 
-    :reject_if => lambda { |a| a[:url].blank? }, 
-    :allow_destroy => true
+  accepts_nested_attributes_for :petition_titles,
+    reject_if: lambda { |a| a[:title].blank? },
+    allow_destroy: true
 
-  accepts_nested_attributes_for :petition_descriptions, 
-    :reject_if => lambda { |a| a[:facebook_description].blank? }, 
-    :allow_destroy => true
+  accepts_nested_attributes_for :petition_images,
+    reject_if: lambda { |a| a[:url].blank? },
+    allow_destroy: true
 
-  accepts_nested_attributes_for :petition_summaries, 
-    :reject_if => lambda { |a| a[:short_summary].blank? }, 
-    :allow_destroy => true
+  accepts_nested_attributes_for :petition_descriptions,
+    reject_if: lambda { |a| a[:facebook_description].blank? },
+    allow_destroy: true
+
+  accepts_nested_attributes_for :petition_summaries,
+    reject_if: lambda { |a| a[:short_summary].blank? },
+    allow_destroy: true
 
   scope :not_deleted, where('deleted is not true')
   scope :recently_featured, where('to_send and featured_on > ?', 3.days.ago)
@@ -52,7 +52,7 @@ class Petition < ActiveRecord::Base
     return false if current_user.nil?
     owner.id == current_user.id || current_user.is_admin || current_user.is_super_user
   end
-  
+
   def self.emailable_petition_ids
     select('id').where(to_send: true).map(&:id)
   end
@@ -65,7 +65,7 @@ class Petition < ActiveRecord::Base
       select { |p| p.cover? member }
   end
 
-   def update_petition_version
+  def update_petition_version
     if petition_versions.first.present?
       petition_versions.first.update_attributes(title: title, description: description)
     else
@@ -92,9 +92,9 @@ class Petition < ActiveRecord::Base
   def description_lsub sub=''
     b = "<br><br>"
     bsub = "#{b}#{sub}#{b}".gsub(/#{b}#{b}/, "#{b}")
-    d = description.gsub(/#{b}LINK#{b}/, bsub)
+      d = description.gsub(/#{b}LINK#{b}/, bsub)
 
-    psub = "<p>#{sub}</p>".gsub(/<p><\/p>/, "")
+      psub = "<p>#{sub}</p>".gsub(/<p><\/p>/, "")
     d.gsub(/<p>LINK<\/p>/, psub)
   end
 
@@ -117,9 +117,9 @@ class Petition < ActiveRecord::Base
   def cover? member
     location_patterns.find { |p| member.last_location =~ p }
   end
-  
+
   def sigcount
-    Rails.cache.fetch('signature_count_' + id.to_s) { signatures.count('email', :distinct => true) }
+    Rails.cache.fetch('signature_count_' + id.to_s) { signatures.count('email', distinct: true) }
   end
 
   def image_urls
@@ -133,7 +133,7 @@ class Petition < ActiveRecord::Base
   private
 
   def location_patterns
-    return [/.*/] if (type = location_type) == 'all' 
+    return [/.*/] if (type = location_type) == 'all'
     details = ['\w\w'] if (details = location_details.split(',')).empty?
     details.map { |d| Regexp.new("^#{type}/#{d}$") }
   end

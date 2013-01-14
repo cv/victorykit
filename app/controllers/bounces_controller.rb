@@ -8,13 +8,13 @@ class BouncesController < ApplicationController
       dsn = JSON.parse(notification["Message"])
       process_dsn dsn
     end
-    render({:nothing => true})
+    render nothing: true
   end
 
 
   private
   def confirm_subscription notification
-    AWS::SNS::Client.new.confirm_subscription(:topic_arn => notification["TopicArn"], :token => notification["Token"], :authenticate_on_unsubscribe => "true")
+    AWS::SNS::Client.new.confirm_subscription(topic_arn: notification["TopicArn"], token: notification["Token"], authenticate_on_unsubscribe: "true")
   end
 
   def process_dsn dsn

@@ -59,7 +59,7 @@ end
 
 Capybara.default_wait_time = 5
 Capybara.register_driver :webkit do |app| 
-  Capybara::Webkit::Driver.new(app, :stdout => nil) 
+  Capybara::Webkit::Driver.new(app, stdout: nil) 
 end 
 
 class ActiveRecord::Base
@@ -86,7 +86,7 @@ def valid_admin_session
 end
 
 def valid_session_for user
-  {:user_id => user.id}
+  {user_id: user.id}
 end
 
 def valid_super_user_session

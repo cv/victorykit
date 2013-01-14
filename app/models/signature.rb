@@ -1,7 +1,7 @@
 class Signature < ActiveRecord::Base
   belongs_to :petition
   belongs_to :member
-  belongs_to :referer, :class_name => 'Member', :foreign_key => 'referer_id'
+  belongs_to :referer, class_name: 'Member', foreign_key: 'referer_id'
   has_one :sent_email
  
   attr_accessible :email, :first_name, :last_name, :member
@@ -9,7 +9,7 @@ class Signature < ActiveRecord::Base
   attr_accessible :http_referer, :browser_name
  
   validates_presence_of :first_name, :last_name
-  validates :email, :presence => true, :email => true
+  validates :email, presence: true, email: true
  
   before_save :truncate_user_agent
   before_save :geolocate
@@ -48,9 +48,9 @@ class Signature < ActiveRecord::Base
     ReferenceType::FACEBOOK_RECOMMENDATION,
     nil ]
 
-  validates :reference_type, :inclusion => {
-    :in => REFERENCE_TYPES, 
-    :message => "%{value} is not a valid reference_type"
+  validates :reference_type, inclusion: {
+    in: REFERENCE_TYPES, 
+    message: "%{value} is not a valid reference_type"
   }
 
 
@@ -117,6 +117,6 @@ class Signature < ActiveRecord::Base
   end
 
   def referral
-    Referral.where(:member_id => referer_id, :petition_id => petition_id).first if referer_id
+    Referral.where(member_id: referer_id, petition_id: petition_id).first if referer_id
   end
 end

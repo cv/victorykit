@@ -6,9 +6,9 @@ class PetitionsController < ApplicationController
   before_filter :require_admin, only: [:index, :destroy]
 
   def index
-    @petitions = Petition.not_deleted.paginate(:page => params[:page], :per_page => 50).order('created_at DESC')
+    @petitions = Petition.not_deleted.paginate(page: params[:page], per_page: 50).order('created_at DESC')
     if params[:featured].present?
-      @petitions = Petition.not_deleted.recently_featured.paginate(:page => params[:page], :per_page => 50).order('created_at DESC')
+      @petitions = Petition.not_deleted.recently_featured.paginate(page: params[:page], per_page: 50).order('created_at DESC')
     end
   end
 
@@ -108,7 +108,7 @@ class PetitionsController < ApplicationController
     current_member = Member.find_or_initialize_by_email(email: current_user.email, first_name: "Admin", last_name: "User")
     ScheduledMailer.send_preview @petition, current_member
     respond_to do |format|
-      format.json  { render :json => ['success'].to_json }
+      format.json  { render json: ['success'].to_json }
     end
   end
 

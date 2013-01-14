@@ -4,7 +4,7 @@ describe PetitionReportsPopulator do
   let(:petition) { create(:petition) }
 
   before do
-    AnalyticsGateway.stub(:fetch_report_results => {"/petitions/#{petition.id}" => OpenStruct.new(:unique_pageviews => '3')})
+    AnalyticsGateway.stub(fetch_report_results: {"/petitions/#{petition.id}" => OpenStruct.new(unique_pageviews: '3')})
     3.times { create(:scheduled_email, petition: petition) }
     2.times { create(:scheduled_email, petition: petition, opened_at: 1.hour.ago) }
     create(:unsubscribe, sent_email: ScheduledEmail.last)

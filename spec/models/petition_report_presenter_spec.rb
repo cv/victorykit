@@ -1,10 +1,10 @@
 describe PetitionReportPresenter do
   let(:report) do
     build(:petition_report,
-      :petition_title => 'My Petition',
-      :sent_emails_count_week => 5,
-      :like_count_week => nil,
-      :like_rate_week => nil)
+      petition_title: 'My Petition',
+      sent_emails_count_week: 5,
+      like_count_week: nil,
+      like_rate_week: nil)
   end
 
   subject { PetitionReportPresenter.new(report, 'week') }

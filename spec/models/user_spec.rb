@@ -17,11 +17,11 @@ describe User do
     subject { build :user }
     
     it 'should not allow mass assignment of user roles by default' do
-      expect {subject.update_attributes({:is_super_user => true, :is_admin => true})}.to raise_error ActiveModel::MassAssignmentSecurity::Error
+      expect {subject.update_attributes({is_super_user: true, is_admin: true})}.to raise_error ActiveModel::MassAssignmentSecurity::Error
     end
     
     it 'should allow mass assignment of user roles to admins' do
-      subject.update_attributes({:is_super_user => true, :is_admin => true}, {:as => :admin} ).should be_true
+      subject.update_attributes({is_super_user: true, is_admin: true}, {as: :admin} ).should be_true
     end
   end
 

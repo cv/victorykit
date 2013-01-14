@@ -71,7 +71,7 @@ class EmailExperiments
   end
 
   def trial_session
-    {:session_id => @email.id.to_s}
+    {session_id: @email.id.to_s}
   end
 
 end

@@ -103,7 +103,7 @@ def go_to_facebook path=nil
 end
 
 def share_petition_on_facebook fb_test_user, share_mode
-  click(:id => 'the-one-in-the-modal')
+  click(id: 'the-one-in-the-modal')
   if (share_mode == :share)
     #click(id: 'the-one-in-the-modal')
     $driver.switch_to.window $driver.window_handles.last
@@ -112,7 +112,7 @@ def share_petition_on_facebook fb_test_user, share_mode
     click(name: 'share')
     $driver.switch_to.window $driver.window_handles.first
   elsif (share_mode) == :request
-    switch_to_frame(:class => "FB_UI_Dialog")
+    switch_to_frame(class: "FB_UI_Dialog")
     checkbox = wait.until { element(class: "checkbox") }
     checkbox.click
     element(name: "ok_clicked").click

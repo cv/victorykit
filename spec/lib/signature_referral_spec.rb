@@ -6,14 +6,14 @@ describe SignatureReferral do
   legacy_received_code = "123.abc"
 
   it "return email referer given sent mail (:n) param" do
-    params = {:n => "foo"}.with_indifferent_access
+    params = {n: "foo"}.with_indifferent_access
     referer_ref_type, referer_ref_code = SignatureReferral.translate_raw_referral(params)
     referer_ref_type.should eq "email"
     referer_ref_code.should eq "foo"
   end
 
   it "return email referer given sent mail (:n) param with inadvertent punctuation included" do
-    params = {:n => "foo!"}.with_indifferent_access
+    params = {n: "foo!"}.with_indifferent_access
     referer_ref_type, referer_ref_code = SignatureReferral.translate_raw_referral(params)
     referer_ref_type.should eq "email"
     referer_ref_code.should eq "foo"

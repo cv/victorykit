@@ -16,12 +16,12 @@ describe Donation do
 
     before do
       Member.stub(:find_by_hash).with('123.abc').and_return(donator)
-      Donation.stub(:where).with(:member_id => donator, :amount => nil).
+      Donation.stub(:where).with(member_id: donator, amount: nil).
         and_return([donation])
     end
     
     it 'updates amount' do
-      donation.should_receive(:update_attributes).with(:amount => 30.0)
+      donation.should_receive(:update_attributes).with(amount: 30.0)
       Donation.confirm_payment(30.0, '123.abc')
     end
   end

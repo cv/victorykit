@@ -81,9 +81,9 @@ class Referral < ActiveRecord::Base
   end
 
   def test_names
-    { :title => "petition #{petition.id} #{title_type} title",
-      :image => petition.petition_images.any? ? "petition #{petition.id} #{title_type} image" : "default facebook image 2",
-      :description => "petition #{petition.id} #{title_type} description" }
+    { title: "petition #{petition.id} #{title_type} title",
+      image: petition.petition_images.any? ? "petition #{petition.id} #{title_type} image" : "default facebook image 2",
+      description: "petition #{petition.id} #{title_type} description" }
   end
 
 end

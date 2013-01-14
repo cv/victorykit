@@ -45,7 +45,7 @@ describe SignaturesController do
 
       context 'new member' do
         it 'should create a member record' do
-          Member.should exist(:email => signature_fields[:email])
+          Member.should exist(email: signature_fields[:email])
         end
 
         it 'should indicate that this was the first petition signed by this member' do
@@ -65,7 +65,7 @@ describe SignaturesController do
         it 'should ignore case for email' do
           signature_fields[:email] = 'BoB@My.coM'
           sign_petition signer_ref_code: code
-          Member.should_not exist(:email => 'BoB@My.coM')
+          Member.should_not exist(email: 'BoB@My.coM')
           Member.find_by_email('bob@my.com').signatures.should have(2).elements
         end
       end
@@ -125,7 +125,7 @@ describe SignaturesController do
         end
 
         context 'posted action' do
-          let(:fb_action) { create :share, :member => member, :action_id => 'abcd1234' }
+          let(:fb_action) { create :share, member: member, action_id: 'abcd1234' }
           let(:ref_code) { fb_action.action_id }
           let(:type) { Signature::ReferenceType::FACEBOOK_SHARE }
           let(:option) { 'facebook_share' }

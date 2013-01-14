@@ -31,7 +31,7 @@ module WebDriverHelpers
   end
 
   def wait timeout = 20
-    Selenium::WebDriver::Wait.new(:timeout => timeout)
+    Selenium::WebDriver::Wait.new(timeout: timeout)
   end
 
   def go_to resource

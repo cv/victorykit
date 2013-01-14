@@ -1,7 +1,7 @@
 describe PetitionImage do
   describe "s3 object key" do
     it "is a hash of the url with a file extension" do
-      image = build(:petition_image, :url => 'foo.jpg')
+      image = build(:petition_image, url: 'foo.jpg')
       image.s3_object_key.should == Digest::MD5.hexdigest("foo.jpg") + ".jpg"
     end
   end

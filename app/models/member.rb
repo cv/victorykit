@@ -8,8 +8,8 @@ class Member < ActiveRecord::Base
   attr_accessible :first_name, :last_name, :email
   attr_accessible :country_code, :state_code
 
-  validates :email, :presence => true, :uniqueness => true
-  validates :first_name, :last_name, :presence => true
+  validates :email, presence: true, uniqueness: true
+  validates :first_name, :last_name, presence: true
 
   def self.random_and_not_recently_contacted(n)
     query = <<-SQL
@@ -51,7 +51,7 @@ class Member < ActiveRecord::Base
   end
 
   def self.find_by_hash(hash)
-    where(:id => MemberHasher.validate(hash)).first
+    where(id: MemberHasher.validate(hash)).first
   end
 
   def latest_subscription

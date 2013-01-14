@@ -1,6 +1,6 @@
 class PetitionImage < ActiveRecord::Base
   attr_accessible :url
-  attr_accessible :url, :as => :admin
+  attr_accessible :url, as: :admin
   belongs_to :petition
 
   def s3_object_key

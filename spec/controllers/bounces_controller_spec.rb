@@ -1,7 +1,7 @@
 describe BouncesController do
   describe "create" do
     def unsubscribes_the_recipient_because_of cause
-      member = create :member, :email => "username@example.com"
+      member = create :member, email: "username@example.com"
       request.env["RAW_POST_DATA"] = data
       post :create
       Unsubscribe.last.email.should == "username@example.com"
@@ -87,7 +87,7 @@ json
 json
       }
       before do
-        create :member, :email => "username@example.com"
+        create :member, email: "username@example.com"
       end
 
       it_behaves_like "misformated notification handler"
@@ -113,7 +113,7 @@ json
 json
       }
       before do
-        create :member, :email => "username@example.com"
+        create :member, email: "username@example.com"
       end
 
       it_behaves_like "misformated notification handler" 
@@ -159,7 +159,7 @@ json
       }
 
       before do
-        create :member, :email => "username@example.com"
+        create :member, email: "username@example.com"
       end
 
       it_behaves_like "misformated notification handler"

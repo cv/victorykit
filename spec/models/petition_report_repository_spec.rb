@@ -3,18 +3,18 @@ describe PetitionReportRepository do
 
   before do
     report_with_more_likes = {
-      :petition_id => 1,
-      :petition_title => 'More Likes',
-      :sent_emails_count_month => 8,
-      :like_count_month => 4,
-      :like_rate_month => 0.5
+      petition_id: 1,
+      petition_title: 'More Likes',
+      sent_emails_count_month: 8,
+      like_count_month: 4,
+      like_rate_month: 0.5
     }
     report_with_less_likes = {
-      :petition_id => 2,
-      :petition_title => 'Less Likes',
-      :sent_emails_count_month => 24,
-      :like_count_month => 6,
-      :like_rate_month => 0.25
+      petition_id: 2,
+      petition_title: 'Less Likes',
+      sent_emails_count_month: 24,
+      like_count_month: 6,
+      like_rate_month: 0.25
     }
     @petition_with_more_likes = create(:petition_report, report_with_more_likes)
     @petition_with_less_likes = create(:petition_report, report_with_less_likes)

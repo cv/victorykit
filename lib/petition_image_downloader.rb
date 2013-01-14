@@ -5,7 +5,7 @@ class PetitionImageDownloader
       s3_object = s3.buckets[Settings.aws.petition_images_bucket].objects[image.s3_object_key]
       begin
         open(image.url) do |f|
-          s3_object.write(f, :acl => :public_read)
+          s3_object.write(f, acl: :public_read)
           image.update_attribute(:stored, true)
         end
       rescue Exception => e

@@ -5,7 +5,7 @@ class Admin::StatsController < ApplicationController
 
   def browser_usage
     signature_count = Signature.count
-    results = Signature.count(:group => "browser_name", :order => "count_all desc")
+    results = Signature.count(group: "browser_name", order: "count_all desc")
     @browser_stat = Hash[results.map {|k,v| [k, "%2.2f" % [v.to_f*100/signature_count]]}]
   end
 
@@ -50,7 +50,7 @@ class Admin::StatsController < ApplicationController
 
   def daily_facebook_insight
     social_media_config = Rails.configuration.social_media
-    fb_app = FbGraph::Application.new(social_media_config[:facebook][:app_id], :secret => social_media_config[:facebook][:secret])
+    fb_app = FbGraph::Application.new(social_media_config[:facebook][:app_id], secret: social_media_config[:facebook][:secret])
     domain = FbGraph::Domain.search('act.watchdog.net').first
     domain.access_token = fb_app.access_token
 
@@ -58,7 +58,7 @@ class Admin::StatsController < ApplicationController
     start_time = 45.days.ago.beginning_of_day.to_i
     end_time   = 1.day.ago.end_of_day.to_i
 
-    insights = domain.insights(:metric => metrics, :period => :day, :since => start_time, :until => end_time)
+    insights = domain.insights(metric: metrics, period: :day, since: start_time, until: end_time)
     data = insights.map do |i|
       {label: i.name.titleize, data: i.values.map {|v| [js_timestamp(v['end_time']), v['value']] }}
     end
@@ -85,8 +85,8 @@ class Admin::StatsController < ApplicationController
   end
 
   def email_response_rate_by_part part
-    sent_emails_by_time = ScheduledEmail.count(:group => "date_part('#{part}', created_at)")
-    signed_emails_by_part = ScheduledEmail.count(:group => "date_part('#{part}', created_at)", :conditions => ['signature_id is not null'])
+    sent_emails_by_time = ScheduledEmail.count(group: "date_part('#{part}', created_at)")
+    signed_emails_by_part = ScheduledEmail.count(group: "date_part('#{part}', created_at)", conditions: ['signature_id is not null'])
 
     spins = sent_emails_by_time.map{|k,v|[k.to_i,v]}.sort_by &:first
     wins = signed_emails_by_part.map{|k,v|[k.to_i,v]}.sort_by &:first
@@ -97,7 +97,7 @@ class Admin::StatsController < ApplicationController
   end
 
   def signatures_by_part part
-    q = Signature.count(:group => "date_part('#{part}', signatures.created_at)", :joins => :sent_email)
+    q = Signature.count(group: "date_part('#{part}', signatures.created_at)", joins: :sent_email)
     [{data: q.map{|(k,v)| [k.to_i,v]}.sort_by(&:first)}]
   end
 
